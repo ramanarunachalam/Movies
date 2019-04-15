@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+<link media="all" rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+<link media="all" rel="stylesheet" href="css/movies.css" type="text/css" />
+<title>Movie Collection</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="navbar navbar-inverse"  role="navigation">
+            <div class="col-xs-6">
+                <span class="navbar-brand">Movies</span>
+    
+                <ul class="nav navbar-nav nav-pills">
+                  <li class="active"><a href="title.html" target="NAV_LIST"><span class="glyphicon glyphicon-user"> Title</a></li>
+                  <li><a href="year.html" target="NAV_LIST"><span class="glyphicon glyphicon-tags"> Year</a></li>
+                  <li><a href="actor.html" target="NAV_LIST"><span class="glyphicon glyphicon-user"> Actor</a></li>
+                  <li><a href="director.html" target="NAV_LIST"><span class="glyphicon glyphicon-user"> Director</a></li>
+                  <li><a href="language.html" target="NAV_LIST"><span class="glyphicon glyphicon-tags"> Language</a></li>
+                </ul>
+            </div>
+    
+            <div class="col-xs-4">
+                <form method="GET" action="/moviesearch" target="FRAME_CONTENT" class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input class="form-control" results=5 autosave=5 autofocus name="word" placeholder="Search" type="text">
+                        <span class="input-group-btn"><button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </form>
+            </div>
+    
+            <div class="col-xs-2">
+                <span class="navbar-brand navbar-right"><small>Raman Arunachalam</small></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-4" id="MENU">
+            <iframe id="NAV_LIST" name="NAV_LIST" frameBorder="0" src="title.html" onload="javascript:set_iframe_load_params(this);"></iframe>
+        </div>
+        <div class="col-xs-8" id="CONTENT">
+            <iframe id="FRAME_CONTENT" name="FRAME_CONTENT" frameBorder="0" src="stats.html" onload="javascript:set_iframe_load_params(this);"></iframe>
+        </div>
+      </div>
+    </div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/movies.js"></script>
+
+</body>
+
+</html>
+
