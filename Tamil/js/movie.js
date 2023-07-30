@@ -1,16 +1,17 @@
-const DEFAULT_VIDEO_ID    = "KcFKReOW9yM";
+const DEFAULT_VIDEO_ID    = "2c80r6Uubew";
 const DEFAULT_YOUTUBE_URL = `https://www.youtube.com/embed/${DEFAULT_VIDEO_ID}?enablejsapi=1`;
 
 const VIDEO_INFO_KEY_LIST = new Set([ 'title', 'author_name' ]);
-const ENGLISH_TYPE_LIST = [ 'person' ];
 const CC = [ 'I', 'R', 'D', 'V' ];
-const OF = [ 'F', 'S', 'T' ];
-const FF = { 'person'  : [ 'movie',  'M', [ 'P', 'P', 'P' ], [ 'person', 'person', 'person' ] ],
-             'movie'   : [ 'person', 'P', [ 'M', 'M', 'M' ], [ 'movie', 'movie', 'movie'    ] ]
+const OF = [ 'F' ];
+const FF = { 'person'  : [ 'movie', 'M', [ 'Y' ], [ 'year'   ] ],
+             'movie'   : [ 'year',  'Y', [ 'P' ], [ 'person' ] ],
+             'year'    : [ 'movie', 'M', [ 'P' ], [ 'person' ] ]
            };
-const CARNATIC_ICON_DICT = { 'movie'    : 'music-note-beamed',
-                             'person'   : 'person-fill'
-                           };
+const MOVIE_ICON_DICT = { 'movie'  : 'film',
+                          'year'   : 'calendar',
+                          'person' : 'person-fill'
+                        };
 const SEARCH_MAP_DICT = { 'c' : 's', 'p' : 'b' };
 const IMAGE_MAP       = { 'm' : 'maxresdefault.jpg', 'h' : 'hqdefault.jpg', 's' : 'sddefault.jpg',
                           'm2' : 'maxres2.jpg', 'h2' : 'hq2.jpg', 's2' : 'sd2.jpg',
@@ -248,7 +249,6 @@ function get_swara_text(lang, note_list, value_list) {
 function check_for_english_text(lang, category, h_id, h_text) {
     if (lang !== 'English') return false;
     if (category === 'type' && h_text === 'Englishnote') return true;
-    if (ENGLISH_TYPE_LIST.includes(category)) return true;
     if (category !== 'movie') return false;
     if (h_id >= 20000) return true;
     if (h_text.includes(' - ')) return true;
@@ -503,7 +503,7 @@ function handle_playlist_command(cmd, arg) {
 function render_nav_template(category, data) {
     const lang = window.RENDER_LANGUAGE;
     const letter_list = data['alphabet'];
-    const no_transliterate = lang === 'English' && ENGLISH_TYPE_LIST.includes(category);
+    const no_transliterate = lang === 'English';
     const id_data = window.ID_DATA[category];
     const poster_data = window.ABOUT_DATA[category];
     const need_poster = category === 'person';
@@ -579,9 +579,10 @@ function set_link_active_state(element, prev_element) {
 
 function get_folder_value(category, info, prefix, v) {
     const lang = window.RENDER_LANGUAGE;
-    let id_data = window.ID_DATA[category];
+    const id_data = window.ID_DATA[category];
     const h_name = prefix + 'D';
-    let h_id = info[v];
+    console.log(category, info, prefix, v);
+    const h_id = info[v];
     const h_text = id_data[h_id][0];
     const f_text = id_data[h_id][1];
     info[h_name] = h_text;
@@ -638,7 +639,7 @@ function translate_folder_id_to_data(category, id, data) {
                 movie['PP'] = movie['P'];
                 const imageId = movie['I'].split('&')[0];
                 const path = IMAGE_MAP[movie['J']] ?? 'maxdefault.jpg';
-                movie['Y'] = `${imageId}/${path}`;
+                movie['Z'] = `${imageId}/${path}`;
             }
         }
     }
@@ -804,7 +805,7 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
         } else {
             title = get_transliterator_text(lang, title);
         }
-        const item = { 'T' : category, 'C' : n_category, 'I' : CARNATIC_ICON_DICT[category],
+        const item = { 'T' : category, 'C' : n_category, 'I' : MOVIE_ICON_DICT[category],
                        'H' : href, 'N' : title, 'P' : pop
                      };
         const need_poster = category === 'person';
