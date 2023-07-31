@@ -2,6 +2,7 @@ const DEFAULT_VIDEO_ID    = "2c80r6Uubew";
 const DEFAULT_YOUTUBE_URL = `https://www.youtube.com/embed/${DEFAULT_VIDEO_ID}?enablejsapi=1`;
 
 const VIDEO_INFO_KEY_LIST = new Set([ 'title', 'author_name' ]);
+const ENGLISH_TYPE_LIST = [ 'person' ];
 const CC = [ 'I', 'R', 'D', 'V' ];
 const OF = [ 'F' ];
 const FF = { 'person'  : [ 'movie', 'M', [ 'Y' ], [ 'year'   ] ],
@@ -249,6 +250,7 @@ function get_swara_text(lang, note_list, value_list) {
 function check_for_english_text(lang, category, h_id, h_text) {
     if (lang !== 'English') return false;
     if (category === 'type' && h_text === 'Englishnote') return true;
+    if (ENGLISH_TYPE_LIST.includes(category)) return true;
     if (category !== 'movie') return false;
     if (h_id >= 20000) return true;
     if (h_text.includes(' - ')) return true;
