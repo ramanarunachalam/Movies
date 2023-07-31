@@ -583,7 +583,7 @@ function get_folder_value(category, info, prefix, v) {
     const lang = window.RENDER_LANGUAGE;
     const id_data = window.ID_DATA[category];
     const h_name = prefix + 'D';
-    console.log(category, info, prefix, v);
+    // console.log(category, info, prefix, v);
     const h_id = info[v];
     const h_text = id_data[h_id][0];
     const f_text = id_data[h_id][1];
@@ -1263,7 +1263,8 @@ function collection_init(collection, default_movie) {
     const elements = document.getElementsByTagName('html');
     window.COLOR_SCHEME = elements[0].getAttribute('data-bs-theme');
     window.RENDER_LANGUAGE = lang;
-    window.GOT_LANGUAGE = lang;
+    window.GOT_LANGUAGE = lang
+
     window.history_data = undefined;
     window.carnatic_popstate = false;
 
