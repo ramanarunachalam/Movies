@@ -10,7 +10,7 @@ const FF = { 'person'  : [ 'movie', 'M', [ 'Y' ], [ 'year'   ] ],
              'year'    : [ 'movie', 'M', [ 'P' ], [ 'person' ] ]
            };
 const MOVIE_ICON_DICT = { 'movie'  : 'film',
-                          'year'   : 'calendar',
+                          'year'   : 'calendar-date',
                           'person' : 'person-fill'
                         };
 const SEARCH_MAP_DICT = { 'c' : 's', 'p' : 'b' };
@@ -337,8 +337,8 @@ function toggle_brightness() {
     window.COLOR_SCHEME = (window.COLOR_SCHEME === 'dark') ? 'light' : 'dark';
     const elements = document.getElementsByTagName('html');
     elements[0].setAttribute('data-bs-theme', window.COLOR_SCHEME);
-    if (window.COLOR_SCHEME === 'dark') toggle_icon('BRIGHTNESS', 'bi-brightness-low', 'bi-brightness-high-fill');
-    else toggle_icon('BRIGHTNESS', 'bi-brightness-high-fill', 'bi-brightness-low');
+    if (window.COLOR_SCHEME === 'dark') toggle_icon('BRIGHTNESS', 'bi-moon-fill', 'bi-brightness-high-fill');
+    else toggle_icon('BRIGHTNESS', 'bi-brightness-high-fill', 'bi-moon-fill');
 }
 
 function add_movie(audio_file, script_mode) {
@@ -1256,14 +1256,15 @@ function load_youtube_frame() {
 }
 
 function collection_init(collection, default_movie) {
-    const lang = 'English';
+    const lang = 'Tamil';
     window.collection_name = collection;
     window.default_movie = default_movie;
 
     const elements = document.getElementsByTagName('html');
     window.COLOR_SCHEME = elements[0].getAttribute('data-bs-theme');
     window.RENDER_LANGUAGE = lang;
-    window.GOT_LANGUAGE = lang
+    window.GOT_LANGUAGE = 'தமிழ்';
+    set_tamil_regex_list();
 
     window.history_data = undefined;
     window.carnatic_popstate = false;
@@ -1289,9 +1290,9 @@ function collection_init(collection, default_movie) {
     Promise.all(url_list).then((values) => {
         const [ id_data, about_data, hk_data ] = values;
         load_init_data(id_data, about_data, hk_data);
+        load_menu_data(lang);
     });
 
     init_input_keyboard();
-    load_menu_data(lang);
 }
 
