@@ -225,28 +225,6 @@ function load_menu_data(lang) {
     speech_to_text_init();
 }
 
-function get_swara_transliterate(lang, swara_str) {
-    if (lang !== 'English') {
-        swara_str = swara_str.replace(/da/g, 'dha');
-    }
-    swara_str = get_transliterator_text(lang, swara_str);
-    swara_str = swara_str.replace(/([123])/g, '<sub>$1</sub>');
-    return swara_str;
-}
-
-function get_swara_text(lang, note_list, value_list) {
-    let swara_str = value_list[0];
-    const s_list = swara_str.split(' ');
-    for (const swara of s_list) {
-        note_list.add(swara);
-    }
-    swara_str = get_swara_transliterate(lang, swara_str);
-    const note_str = value_list[1];
-    const note_template = plain_get_html_text('page-note-template');
-    const note_html = Mustache.render(note_template, { 'note' : note_str });
-    return swara_str + ' ' + note_html;
-}
-
 function check_for_english_text(lang, category, h_id, h_text) {
     if (lang !== 'English') return false;
     if (category === 'type' && h_text === 'Englishnote') return true;
@@ -376,92 +354,6 @@ function create_jukebox(value) {
     setTimeout(function() { create_jukebox_modal(value); }, 0);
 }
 
-async function create_jukebox_modal(value) {
-    const option = value.toLowerCase();
-    const check_id = window.NAV_CATEGORY === window.CONTENT_CATGEGORY;
-    get_bs_modal('DIALOG_BOX').hide();
-    const JUKEBOX_TOTAL = 100;
-    const JUKEBOX_LENGTH = 10;
-    const movie_id_list = [];
-    const play_list = [];
-    let category = 'movie';
-    let loops = JUKEBOX_TOTAL;
-    if (FF[option] !== undefined) {
-        category = option;
-        loops = 1;
-    }
-    const is_main_movie = category === 'movie';
-    let url = `${category}.json`;
-    let url_data = await fetch_url(url);
-    if (url_data === null) return;
-    const id_list = new Set();
-    const letter_list = url_data['alphabet'];
-    for (let i = 0; i < loops; i++) {
-        let t_id = 0;
-        let t_text = '';
-        if (loops <= 1) {
-            t_text = window.CONTENT_NAME;
-        } else {
-            const letter_index = Math.floor((Math.random() * letter_list.length));
-            const l_item = letter_list[letter_index];
-            const item_list = l_item['items']
-            const item_index = Math.floor((Math.random() * item_list.length));
-            const obj = item_list[item_index];
-            t_id = obj['H'];
-            t_text = window.ID_DATA[category][t_id][0];
-        }
-        url = `${category}/${t_text}.json`;
-        url_data = await fetch_url(url);
-        if (url_data === null) continue;
-        let folder_list = url_data['videos'][0]['folder'];
-        if (loops > 1) {
-            const folder_index = Math.floor((Math.random() * folder_list.length));
-            folder_list = [ folder_list[folder_index] ];
-        }
-        // console.log(`Jukebox: ${url} ${is_main_movie} ${folder_list.length}`);
-        for (let folder of folder_list) {
-            if (loops <= 1) {
-                const folder_index = Math.floor((Math.random() * folder_list.length));
-                folder = folder_list[folder_index];
-            }
-            const movie_id = is_main_movie ? t_id : folder['M'];
-            let video_list = folder['movies'];
-            if (loops <= 1) {
-                if (category === 'person' || category === 'movie') {
-                    video_list = [ video_list[0] ];
-                } else {
-                    const video_index = Math.floor((Math.random() * video_list.length));
-                    video_list = [ video_list[video_index] ];
-                }
-            } else {
-                const video_index = Math.floor((Math.random() * video_list.length));
-                video_list = [ video_list[video_index] ];
-            }
-            // console.log(`Jukebox folder: ${movie_id} ${video_list.length}`);
-            for (const video of video_list) {
-                if (option === 'Views' && video['V'] < 100) continue;
-                const person_id = is_main_movie ? folder['A'] : video['A'];
-                // console.log(`Jukebox video: ${movie_id} ${k} ${person_id}`);
-                if (loops > 1 && category !== 'person' && (person_id <= 0 || person_id >= 50)) continue;
-                // console.log(`Jukebox video: ${movie_id} ${k} ${person_id}`);
-                const video_id = video['I'];
-                if (id_list.has(video_id)) continue;
-                id_list.add(video_id);
-                // console.log(`Jukebox video: ${movie_id} ${person_id} ${video_id}`);
-                const args = `${video_id}:${movie_id}:${person_id}`;
-                play_list.push(args);
-                if (play_list.length >= JUKEBOX_LENGTH) break;
-            }
-            if (play_list.length >= JUKEBOX_LENGTH) break;
-        }
-        if (play_list.length >= JUKEBOX_LENGTH) break;
-    }
-    for (const obj of play_list) {
-        add_movie(obj, true);
-    }
-    setTimeout(function() { show_playlist(); }, 0);
-}
-
 function show_playlist() {
     const play_list = get_play_list();
     const info_list = [];
@@ -510,7 +402,9 @@ function render_nav_template(category, data) {
     const poster_data = window.ABOUT_DATA[category];
     const need_poster = category === 'person';
     for (const l_item of letter_list) {
-        const item_list = l_item['items']
+        const letter = l_item['LL'];
+        l_item['TL'] = get_transliterator_text(lang, letter);
+        const item_list = l_item['items'];
         for (const obj of item_list) {
             const h_id = obj['H'];
             const h_text = id_data[h_id][0];
@@ -746,7 +640,7 @@ function normalize_search_text(search_text) {
 }
 
 function search_load_fetch_data(search_index_obj) {
-    const search_engine = window.carnatic_search_engine;
+    const search_engine = window.movie_search_engine;
     let data_id = 0;
     const search_obj = search_index_obj['Search'];
     for (let category in search_obj) {
@@ -759,12 +653,12 @@ function search_load_fetch_data(search_index_obj) {
             data_id += 1;
         });
     }
-    window.CARNATIC_CHAR_MAP = search_index_obj['Charmap'];
+    window.MOVIE_CHAR_MAP = search_index_obj['Charmap'];
     transliterator_init();
 }
 
 function search_init() {
-    window.carnatic_search_engine = new MiniSearch({
+    window.movie_search_engine = new MiniSearch({
         fields: ['aka'], // fields to index for full-text search
         storeFields: ['title', 'href', 'category', 'pop'] // fields to return with search results
     });
@@ -786,7 +680,7 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
     const lang = window.RENDER_LANGUAGE;
     const map_info_data = get_map_data('MAP_INFO_DICT');
     const map_dict = map_info_data[lang];
-    const results = window.carnatic_search_engine.search(search_word, search_options);
+    const results = window.movie_search_engine.search(search_word, search_options);
     if (results.length <= 0) return;
     const max_score = results[0].score;
     for (const result_item of results) {
@@ -824,7 +718,7 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
 }
 
 function transliterator_init() {
-    const char_map = window.CARNATIC_CHAR_MAP;
+    const char_map = window.MOVIE_CHAR_MAP;
     const key_list = [];
     let max_len = 0;
     for (let s in char_map) {
@@ -838,7 +732,7 @@ function transliterator_init() {
 }
 
 function transliterate_text(word) {
-    const char_map = window.CARNATIC_CHAR_MAP;
+    const char_map = window.MOVIE_CHAR_MAP;
     const tokenset = window.CHAR_MAP_KEY_LIST;
     const maxlen = window.CHAR_MAP_MAX_LENGTH;
     let current = 0;
@@ -1226,7 +1120,7 @@ function handle_popstate(e) {
     const data = e.state;
     if (data === null || data === undefined) return;
     // console.log('POP: ', e);
-    window.carnatic_popstate = true;
+    window.movie_popstate = true;
     handle_history_context(data);
     const lang = data['language'];
     // set_language({ 'value' : lang });
@@ -1237,16 +1131,16 @@ function add_history(context, data) {
     const url = 'movie.html';
     // if (context === 'nav') return;
     data['language'] = window.GOT_LANGUAGE;
-    if (!window.carnatic_popstate) {
+    if (!window.movie_popstate) {
         data['context'] = context;
         let title = 'Tamil: ' + capitalize_word(data['category']);
         const name = data['name'];
         if (name !== undefined) title += ' ' + name;
-        // console.log('PUSH: ', data, window.carnatic_popstate);
+        // console.log('PUSH: ', data, window.movie_popstate);
         history.pushState(data, title, url);
     }
     window.history_data = data;
-    window.carnatic_popstate = false;
+    window.movie_popstate = false;
 }
 
 function load_youtube_frame() {
@@ -1267,7 +1161,7 @@ function collection_init(collection, default_movie) {
     set_tamil_regex_list();
 
     window.history_data = undefined;
-    window.carnatic_popstate = false;
+    window.movie_popstate = false;
 
     window.NAV_SCROLL_SPY = null;
     window.ACTIVE_MENU = null;
