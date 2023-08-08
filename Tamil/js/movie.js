@@ -456,7 +456,7 @@ function load_nav_fetch_data(category, url_data) {
 
 function set_link_initial_active_state() {
     const a_list = plain_get_query_selector('#MENU_DATA li a');
-    const a_node = a_list[2].parentNode;
+    const a_node = a_list[1].parentNode;
     window.ACTIVE_MENU = a_node;
     a_node.classList.add('active');
 }

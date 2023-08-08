@@ -65,7 +65,7 @@ a:not([class*="btn"]):hover {
 }
 
 div#PLAYER {
-    height: 120px;
+    height: 360px;
     background-color: var(--indic-player-bg);
 }
 
