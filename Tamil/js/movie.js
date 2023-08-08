@@ -320,17 +320,13 @@ function toggle_brightness() {
 }
 
 function add_movie(audio_file, script_mode) {
-    const play_list = get_play_list();
-    if (play_list.length <= 0) {
-        if (audio_file !== '') play_list[0] = audio_file;
-    } else {
-        play_list[play_list.length] = audio_file;
-    }
+    const play_list = [];
+    play_list.push(audio_file);
     sessionStorage['playlist'] = JSON.stringify(play_list);
     if (play_list.length === 1) {
         play_first();
     } else  if (!script_mode) {
-        show_modal_dialog('Movie added to Play List', 'Click Play List to Add/Delete Movies');
+        // show_modal_dialog('Movie added to Play List', 'Click Play List to Add/Delete Movies');
     }
 }
 
