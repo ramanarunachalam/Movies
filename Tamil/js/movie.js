@@ -683,7 +683,7 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
         if (id_list.has(result_item.id)) continue;
         let pop = result_item.pop;
         if (search_word.length > 2) {
-            pop = ((400 * result_item.score) / max_score) + (0.6 * pop);
+            pop = ((10 * result_item.score) / max_score) + (0.9 * pop);
         }
         pop = base_pop + pop;
         const category = result_item.category
@@ -698,7 +698,8 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
             title = get_transliterator_text(lang, title);
         }
         const item = { 'T' : category, 'C' : n_category, 'I' : MOVIE_ICON_DICT[category],
-                       'H' : href, 'N' : title, 'P' : pop
+                       'H' : href, 'N' : title, 'P' : pop,
+                       'SS' : result_item.score, 'PP' : result_item.pop
                      };
         const need_poster = category === 'person';
         if (need_poster) {
@@ -798,6 +799,7 @@ function load_search_part(search_word, non_english) {
     }
     item_list.sort(function (a, b) { return b.P - a.P; });
     const new_item_list = item_list.slice(0, 25);
+    console.log('Search Items:', new_item_list);
     return new_item_list;
 }
 
