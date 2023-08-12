@@ -359,8 +359,8 @@
       "Movie App Title": "திரைப்படங்கள் பெட்டகம்",
       "Person": "கலைஞர்",
       "Persons": "கலைஞர்கள்",
-      "Year": "ஆண்டு",
-      "Years": "ஆண்டுகள்",
+      "Year": "வருடம்",
+      "Years": "வருடங்கள்",
       "Movie": "திரைப்படம்",
       "Movies": "திரைப்படங்கள்"
     },
@@ -416,8 +416,12 @@
       "Updated": "నవీకరించబడింది",
       "Search Results": "శోధన ఫలితాలు",
       "Movie App Title": "Movies Vault",
-      "Movie": "Movie",
-      "Movies": "Movies"
+      "Person": "కళాకారుడు",
+      "Persons": "కళాకారులు",
+      "Year": "సంవత్సరం",
+      "Years": "సంవత్సరాలు",
+      "Movie": "సినిమా",
+      "Movies": "సినిమాలు"
     },
     "Kannada": {
       "Music App Title": "ಶಾಸ್ತ್ರೀಯ ಸಂಗೀತ ಸಂಗ್ರಹ",
@@ -471,8 +475,12 @@
       "Updated": "ನವೀಕರಿಸಲಾಗಿದೆ",
       "Search Results": "ಹುಡುಕಾಟದ ಪಲಿತಾಂಶಗಳು",
       "Movie App Title": "Movies Vault",
-      "Movie": "Movie",
-      "Movies": "Movies"
+      "Person": "ಕಲಾವಿದ",
+      "Persons": "ಕಲಾವಿದರು",
+      "Year": "ವರ್ಷ",
+      "Years": "ವರ್ಷಗಳು",
+      "Movie": "ಚಲನಚಿತ್ರ",
+      "Movies": "ಚಲನಚಿತ್ರಗಳು"
     },
     "Malayalam": {
       "Music App Title": "ശാസ്ത്രീയ സംഗീത ശേഖരം",
@@ -526,8 +534,12 @@
       "Updated": "പുതുക്കിയത്",
       "Search Results": "തിരയൽ ഫലങ്ങൾ",
       "Movie App Title": "Movies Vault",
-      "Movie": "Movie",
-      "Movies": "Movies"
+      "Person": "കലാകാരന്",
+      "Persons": "കലാകാരന്മാർ",
+      "Year": "വർഷം",
+      "Years": "വർഷങ്ങൾ",
+      "Movie": "സിനിമ",
+      "Movies": "സിനിമകൾ"
     },
     "Hindi": {
       "Music App Title": "शास्त्रीय संगीत संग्रह",
@@ -580,8 +592,12 @@
       "Updated": "अपडेट",
       "Search Results": "खोज परिणाम",
       "Movie App Title": "Movies Vault",
-      "Movie": "Movie",
-      "Movies": "Movies"
+      "Person": "कलाकार",
+      "Persons": "कलाकार",
+      "Year": "वर्ष",
+      "Years": "वर्ष",
+      "Movie": "चलचित्र",
+      "Movies": "चलचित्र"
     },
     "Marathi": {
       "Music App Title": "शास्त्रीय संगीत संग्रह",
@@ -634,6 +650,10 @@
       "Updated": "अपडेट",
       "Search Results": "शोध परिणाम",
       "Movie App Title": "Movies Vault",
+      "Person": "Person",
+      "Persons": "Persons",
+      "Year": "Year",
+      "Years": "Years",
       "Movie": "Movie",
       "Movies": "Movies"
     },
@@ -688,6 +708,10 @@
       "Updated": "আপডেট",
       "Search Results": "অনুসন্ধান ফলাফল",
       "Movie App Title": "Movies Vault",
+      "Person": "Person",
+      "Persons": "Persons",
+      "Year": "Year",
+      "Years": "Years",
       "Movie": "Movie",
       "Movies": "Movies"
     },
@@ -742,6 +766,10 @@
       "Updated": "અપડેટેડ",
       "Search Results": "શોધ પરિણામો",
       "Movie App Title": "Movies Vault",
+      "Person": "Person",
+      "Persons": "Persons",
+      "Year": "Year",
+      "Years": "Years",
       "Movie": "Movie",
       "Movies": "Movies"
     },
@@ -796,6 +824,10 @@
       "Updated": "ਅੱਪਡੇਟ",
       "Search Results": "ਖੋਜ ਨਤੀਜੇ",
       "Movie App Title": "Movies Vault",
+      "Person": "Person",
+      "Persons": "Persons",
+      "Year": "Year",
+      "Years": "Years",
       "Movie": "Movie",
       "Movies": "Movies"
     },
@@ -850,6 +882,10 @@
       "Updated": "ଅଦ୍ୟତନ କରନ୍ତୁ",
       "Search Results": "ସନ୍ଧାନ ଫଳାଫଳ",
       "Movie App Title": "Movies Vault",
+      "Person": "Person",
+      "Persons": "Persons",
+      "Year": "Year",
+      "Years": "Years",
       "Movie": "Movie",
       "Movies": "Movies"
     },
@@ -905,6 +941,10 @@
       "Updated": "আপডেট কৰা হৈছে",
       "Search Results": "সন্ধান ফলাফল",
       "Movie App Title": "Movies Vault",
+      "Person": "Person",
+      "Persons": "Persons",
+      "Year": "Year",
+      "Years": "Years",
       "Movie": "Movie",
       "Movies": "Movies"
     }
