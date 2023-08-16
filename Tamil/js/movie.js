@@ -4,14 +4,16 @@ const DEFAULT_YOUTUBE_URL = `https://www.youtube.com/embed/${DEFAULT_VIDEO_ID}?e
 const VIDEO_INFO_KEY_LIST = new Set([ 'title', 'author_name' ]);
 const ENGLISH_TYPE_LIST = [ 'person' ];
 const CC = [ 'I', 'R', 'D', 'V' ];
-const OF = [ 'F' ];
-const FF = { 'person'  : [ 'movie', 'M', [ 'Y' ], [ 'year'   ] ],
-             'movie'   : [ 'year',  'Y', [ 'P' ], [ 'person' ] ],
-             'year'    : [ 'movie', 'M', [ 'P' ], [ 'person' ] ]
+const OF = [ 'F', 'S' ];
+const FF = { 'person'   : [ 'movie', 'M', [ 'Y', 'K' ], [ 'year',   'director' ] ],
+             'director' : [ 'movie', 'M', [ 'Y', 'P' ], [ 'year',   'person'   ] ],
+             'movie'    : [ 'year',  'Y', [ 'P', 'K' ], [ 'person', 'director' ] ],
+             'year'     : [ 'movie', 'M', [ 'P', 'K' ], [ 'person', 'director' ] ]
            };
-const MOVIE_ICON_DICT = { 'movie'  : 'film',
-                          'year'   : 'calendar-date',
-                          'person' : 'person-fill'
+const MOVIE_ICON_DICT = { 'movie'    : 'film',
+                          'year'     : 'calendar-date',
+                          'person'   : 'person-fill',
+                          'director' : 'person-lines-fill'
                         };
 const SEARCH_MAP_DICT = { 'c' : 's', 'p' : 'b' };
 const IMAGE_MAP       = { 'm' : 'maxresdefault.jpg', 'h' : 'hqdefault.jpg', 's' : 'sddefault.jpg',
@@ -452,7 +454,7 @@ function load_nav_fetch_data(category, url_data) {
 
 function set_link_initial_active_state() {
     const a_list = plain_get_query_selector('#MENU_DATA li a');
-    const a_node = a_list[1].parentNode;
+    const a_node = a_list[2].parentNode;
     window.ACTIVE_MENU = a_node;
     a_node.classList.add('active');
 }
@@ -473,7 +475,7 @@ function get_folder_value(category, info, prefix, v) {
     const lang = window.RENDER_LANGUAGE;
     const id_data = window.ID_DATA[category];
     const h_name = prefix + 'D';
-    // console.log(category, info, prefix, v);
+    console.log(category, info, prefix, v);
     const h_id = info[v];
     const h_text = id_data[h_id][0];
     const f_text = id_data[h_id][1];
@@ -497,8 +499,8 @@ function get_match_count(f_category, f_value, context_list, c_len) {
 }
 
 function translate_movie_id_to_data(category, sd, st, movie_list) {
-    const HF = [ 'M', 'P' ];
-    const HCATEGORY = [ 'movie', 'person' ];
+    const HF = [ 'M', 'P', 'K' ];
+    const HCATEGORY = [ 'movie', 'person', 'director' ];
     for (const [i, movie] of movie_list.entries()) {
         for (const v of HF) {
             get_folder_value(HCATEGORY[m], movie, v, v);

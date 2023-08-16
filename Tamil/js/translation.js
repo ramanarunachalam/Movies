@@ -16,10 +16,11 @@ const MAP_LANG_DICT = {
 
 const SUPERSCRIPT_CODES = [ 0x00B2, 0x00B3, 0x2074 ];
 
-const CATEGORY_DICT = { 'categories' : [ { 'C' : 'person', 'I' : 'person-fill',   'N' : 'Person' },
-                                         { 'C' : 'movie',  'I' : 'film',          'N' : 'Movie'  },
-                                         { 'C' : 'year',   'I' : 'calendar-date', 'N' : 'Year'   },
-                                         { 'C' : 'about',  'I' : 'info-circle',   'N' : 'About'  },
+const CATEGORY_DICT = { 'categories' : [ { 'C' : 'person',   'I' : 'person-fill',       'N' : 'Person'   },
+                                         { 'C' : 'director', 'I' : 'person-lines-fill', 'N' : 'Director' },
+                                         { 'C' : 'movie',    'I' : 'film',              'N' : 'Movie'    },
+                                         { 'C' : 'year',     'I' : 'calendar-date',     'N' : 'Year'     },
+                                         { 'C' : 'about',    'I' : 'info-circle',       'N' : 'About'    },
                                        ]
                       };
 
