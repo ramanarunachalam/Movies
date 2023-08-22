@@ -1,4 +1,4 @@
-const DEFAULT_VIDEO_ID    = "2c80r6Uubew";
+const DEFAULT_VIDEO_ID    = "R9YJOuQ6SX8";
 const DEFAULT_YOUTUBE_URL = `https://www.youtube.com/embed/${DEFAULT_VIDEO_ID}?enablejsapi=1`;
 
 const VIDEO_INFO_KEY_LIST = new Set([ 'title', 'author_name' ]);
