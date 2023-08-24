@@ -397,8 +397,8 @@ function render_nav_template(category, data) {
     const letter_list = data['alphabet'];
     const no_transliterate = lang === 'English';
     const id_data = window.ID_DATA[category];
-    const poster_data = window.ABOUT_DATA[category];
-    const need_poster = category === 'person';
+    const poster_data = window.ABOUT_DATA['person'];
+    const need_poster = category === 'person' || category === 'director';
     for (const l_item of letter_list) {
         const letter = l_item['LL'];
         l_item['TL'] = get_transliterator_text(lang, letter);
@@ -703,9 +703,9 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
                        'H' : href, 'N' : title, 'P' : pop,
                        'SS' : result_item.score, 'PP' : result_item.pop
                      };
-        const need_poster = category === 'person';
+        const need_poster = category === 'person' || category === 'director';
         if (need_poster) {
-            const poster_data = window.ABOUT_DATA[category];
+            const poster_data = window.ABOUT_DATA['person'];
             const image_name = poster_data[result_item.href]
             if (image_name !== undefined) {
                 item['J'] = `Images/${image_name}.jpg`;
