@@ -197,6 +197,11 @@ iframe#FRAME_PLAYER {
     height: 48px !important;
 }
 
+.CREW_STYLE {
+    width: 128px !important;
+    height: 96px !important;
+}
+
 .ICON_STYLE {
     font-size: 1.5rem;
     color: var(--indic-text-color) !important;
