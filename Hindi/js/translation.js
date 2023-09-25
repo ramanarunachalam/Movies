@@ -1,15 +1,15 @@
 
 const MAP_LANG_DICT = {
     'English': 'English',
-    'தமிழ்': 'Tamil',
-    'తెలుగు': 'Telugu',
-    'ಕನ್ನಡ': 'Kannada',
-    'മലയാളം': 'Malayalam',
     'हिंदी': 'Hindi',
     'मराठी': 'Marathi',
     'বাংলা': 'Bengali',
     'ગુજરાતી': 'Gujarati',
     'ਪੰਜਾਬੀ': 'Punjabi',
+    'தமிழ்': 'Tamil',
+    'తెలుగు': 'Telugu',
+    'ಕನ್ನಡ': 'Kannada',
+    'മലയാളം': 'Malayalam',
     'ଓଡ଼ିଆ': 'Odia',
     'অসমীয়া': 'Assamese'
 };
