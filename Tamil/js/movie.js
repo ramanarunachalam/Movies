@@ -399,30 +399,36 @@ function render_nav_template(category, data) {
     const id_data = window.ID_DATA[category];
     const poster_data = window.ABOUT_DATA['person'];
     const need_poster = category === 'person' || category === 'director';
-    for (const l_item of letter_list) {
-        const letter = l_item['LL'];
-        l_item['TL'] = get_transliterator_text(lang, letter);
-        const item_list = l_item['items'];
-        for (const obj of item_list) {
-            const h_id = obj['H'];
-            const h_text = id_data[h_id][0];
-            let f_text = id_data[h_id][1];
-            obj['H'] = h_text;
+    const alphabet_list = [];
+    const lang_data = data['letters'][lang.toLowerCase()];
+    const icon = MOVIE_ICON_DICT[category];
+    for (let lu in lang_data) {
+        const letter_list = { LL: lu, LU: lu.toUpperCase(), T: category, I: icon };
+        const id_list = lang_data[lu].split(',');
+        const item_list = [];
+        for (const h_id of id_list) {
+            let [h_text, f_text] = id_data[h_id];
+            let n_text = h_text;
             if (check_for_english_text(lang, category, h_id, f_text)) {
-                obj['N'] = h_text;
+                n_text = h_text;
             } else {
-                obj['N'] = (no_transliterate) ? h_text : get_transliterator_text(lang, f_text);
+                n_text = (no_transliterate) ? h_text : get_transliterator_text(lang, f_text);
             }
+            const item = { H: h_text, N: n_text };
             if (need_poster) {
                 const image_name = poster_data[h_id]
                 if (image_name !== undefined) {
-                    obj['J'] = `Images/${image_name}.jpg`;
+                    item['J'] = `Images/${image_name}.jpg`;
                 }
             }
+            item_list.push(item);
         }
+        letter_list['items'] = item_list;
+        alphabet_list.push(letter_list);
     }
+    const new_data = { alphabet: alphabet_list };
     const ul_template = plain_get_html_text('nav-data-template')
-    const template_html = Mustache.render(ul_template, data);
+    const template_html = Mustache.render(ul_template, new_data);
     plain_set_html_text('MENU', template_html);
     if (window.NAV_SCROLL_SP !== null && window.NAV_SCROLL_SP !== undefined) {
         window.NAV_SCROLL_SP.refresh();
@@ -454,7 +460,7 @@ function load_nav_fetch_data(category, url_data) {
 
 function set_link_initial_active_state() {
     const a_list = plain_get_query_selector('#MENU_DATA li a');
-    const a_node = a_list[2].parentNode;
+    const a_node = a_list[3].parentNode;
     window.ACTIVE_MENU = a_node;
     a_node.classList.add('active');
 }
@@ -475,7 +481,6 @@ function get_folder_value(category, info, prefix, v) {
     const lang = window.RENDER_LANGUAGE;
     const id_data = window.ID_DATA[category];
     const h_name = prefix + 'D';
-    console.log(category, info, prefix, v);
     const h_id = info[v];
     const h_text = id_data[h_id][0];
     const f_text = id_data[h_id][1];
@@ -510,33 +515,46 @@ function translate_movie_id_to_data(category, sd, st, movie_list) {
 }
 
 function translate_folder_id_to_data(category, id, data) {
+    const lang = window.RENDER_LANGUAGE.toLowerCase();
     const ff = FF[category];
     const f_category = ff[0];
     const f_type = ff[1];
     const sd = ff[2];
     const st = ff[3];
-    for (const video of data['videos']) {
-        for (const folder of video['folder']) {
-            const movie_list = folder['movies'];
-            let movie_ids = (category !== 'movie') ? folder['M'] : '';
-            folder['HT'] = f_category;
-            folder['HC'] = movie_list.length;
-            get_folder_value(f_category, folder, 'H', f_type);
-            for (const movie of movie_list) {
-                for (let m = 0; m < OF.length; m++) {
-                    const c = OF[m] + 'T';
-                    movie[c] = st[m];
-                    get_folder_value(st[m], movie, OF[m], sd[m]);
-                }
-                if (category === 'movie') movie_ids = movie['M'];
-                movie['PM'] = movie_ids;
-                movie['PP'] = movie['P'];
-                const imageId = movie['I'].split('&')[0];
-                const path = IMAGE_MAP[movie['J']] ?? 'maxdefault.jpg';
-                movie['Z'] = `${imageId}/${path}`;
+    const movie_list = data['movies'];
+    const folder_list = data['folders'];
+    const folder_ids = data['languages'][lang];
+    const fold_id_list = folder_ids.split(',');
+    const new_folder_list = [];
+    for (const f_id of fold_id_list) {
+        const folder = folder_list[+f_id];
+        const [ c_category, c_id, movie_ids ] = folder;
+        const movie_id_list = movie_ids.split(',');
+        const new_folder = { HT: f_category, HC: movie_id_list.length };
+        new_folder[f_type] = c_id;
+        get_folder_value(f_category, new_folder, 'H', f_type);
+        const new_movie_list = [];
+        let p_movie_ids = (category !== 'movie') ? folder['S'] : '';
+        for (const movie_id of movie_id_list) {
+            const movie = movie_list[+movie_id];
+            for (let m = 0; m < OF.length; m++) {
+                const c = OF[m] + 'T';
+                movie[c] = st[m];
+                get_folder_value(st[m], movie, OF[m], sd[m]);
             }
+            if (category === 'movie') p_movie_ids = movie['S'];
+            movie['PM'] = p_movie_ids;
+            movie['PP'] = movie['R'];
+            const imageId = movie['I'].split('&')[0];
+            const path = IMAGE_MAP[movie['J']] ?? 'maxdefault.jpg';
+            movie['Z'] = `${imageId}/${path}`;
+            new_movie_list.push(movie);
         }
+        new_folder['movies'] = new_movie_list;
+        new_folder_list.push(new_folder)
     }
+    const new_data = { videos: [{ folder: new_folder_list }] };
+    return new_data;
 }
 
 function render_data_template(category, id, data, context_list) {
@@ -550,17 +568,16 @@ function render_data_template(category, id, data, context_list) {
 
     const template_name = 'page-videos-template'
     let ul_template = plain_get_html_text(template_name);
+    const new_data = translate_folder_id_to_data(category, id, data);
     if (lang !== 'English') {
         const map_info_data = get_map_data('MAP_INFO_DICT');
         const map_dict = map_info_data[lang];
-        data['VideoName'] = map_dict['Videos'];
-        data['ViewName'] = map_dict['Views'];
+        new_data['VideoName'] = map_dict['Videos'];
+        new_data['ViewName'] = map_dict['Views'];
     } else {
-        data['VideoName'] = 'Videos';
-        data['ViewName'] = 'Views';
+        new_data['VideoName'] = 'Videos';
+        new_data['ViewName'] = 'Views';
     }
-
-    translate_folder_id_to_data(category, id, data);
 
     if (context_list !== undefined) {
         const c_len = context_list.length;
@@ -590,7 +607,7 @@ function render_data_template(category, id, data, context_list) {
         }
     }
 
-    const template_html = Mustache.render(ul_template, data);
+    const template_html = Mustache.render(ul_template, new_data);
     plain_set_html_text(id, template_html);
 }
 
