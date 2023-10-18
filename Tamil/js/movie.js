@@ -300,9 +300,6 @@ function info_transliteration(category, data_list) {
         } else if (name === 'Born' || name === 'Died') {
             const v = get_month_text(value);
             if (v !== '') obj['V'] = v;
-        } else if (lang !== 'English') {
-            value = obj['P'];
-            if (value !== undefined) obj['V'] = transliterate_hk_to_lang(lang, value);
         }
     }
 }
