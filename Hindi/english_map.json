@@ -161,7 +161,6 @@
             "160": "V. Shantaram",
             "161": "Samson",
             "162": "Saif Ali Khan",
-            "163": "Kanjibhai Rathod",
             "164": "Gajanan Jagirdar",
             "165": "Dilip Kumar",
             "166": "Bibijan",
@@ -550,7 +549,6 @@
             "597": "Randeep Hooda",
             "598": "Raj N. Sippy",
             "599": "Raj Kumar",
-            "600": "Nagendra Majumdar",
             "601": "Manmohan Desai",
             "602": "Keshavrao Date",
             "603": "Kanan Devi",
@@ -1869,7 +1867,6 @@
             "2356": "G. N. Butt",
             "2358": "Farogh Siddique",
             "2359": "Farah Khan",
-            "2361": "Dorothy",
             "2363": "Divya Rana",
             "2366": "Dinesh",
             "2367": "Dilip Raj",
@@ -2534,7 +2531,6 @@
             "3346": "Shlok Sharma",
             "3347": "Shivaji Satam",
             "3348": "Shiv Darshan",
-            "3350": "Shiraz Ali Hakim",
             "3352": "Shilpa Anand",
             "3353": "Shery Mohan",
             "3354": "Shernaz Patel",
@@ -6244,7 +6240,6 @@
             "149": "Feroz Khan",
             "153": "Jayant Desai",
             "160": "V. Shantaram",
-            "163": "Kanjibhai Rathod",
             "164": "Gajanan Jagirdar",
             "170": "Manoj Kumar",
             "172": "Nana Patekar",
@@ -6347,7 +6342,6 @@
             "586": "Chaturbhuj Doshi",
             "592": "Subhash Ghai",
             "598": "Raj N. Sippy",
-            "600": "Nagendra Majumdar",
             "601": "Manmohan Desai",
             "613": "Debaki Bose",
             "619": "Tara Harish",
@@ -9071,7 +9065,6 @@
             "1617": "Shart (1954)",
             "1619": "Sharmeelee (1971)",
             "1620": "Sharmaji Namkeen (2022)",
-            "1622": "Sharif Badmash (1924)",
             "1623": "Shareef Budmaash (1973)",
             "1624": "Share Bazaar (1997)",
             "1625": "Sharda (1981)",
@@ -9584,7 +9577,6 @@
             "2748": "Raag (2021)",
             "2749": "Raadha Aur Seeta (1979)",
             "2750": "Raabta (2017)",
-            "2752": "Ra Navghan (1925)",
             "2756": "R Rajkumar (2013)",
             "2757": "Qurbani Rang Layegi (1991)",
             "2758": "Qurbani (1980)",
@@ -13629,6 +13621,7 @@
             "Tala angas": "Tala angas",
             "Tala count": "Tala count",
             "God": "God",
+            "Kshetra": "Kshetra",
             "Audio App Title": "Audio Books Vault",
             "Author": "Author",
             "Authors": "Authors",
@@ -13784,15 +13777,6 @@
             "special": [],
             "middle": []
         },
-        "from_hk": [
-            " jJ,\tjJ,\njJ,jJ,Jc,Jj,Mc,Mj,Mk,Mg,MT,MD,Mt,Md,Ms,G,_r,_n,.R,.R.R,.l.R,.l.R.R,M,A~",
-            " jn,\tjn,\njn,gy,nc,nj,nc,nj,nk,ng,NT,ND,nt,nd,ns,n,R,n,ru,rU,lu,lU,m,An"
-        ],
-        "from_freq": [
-            "\t,\n, ,.,A,G,J,M,_,j",
-            "3,3,3,6,2,1,2,2,2,2"
-        ],
-        "from_length": 6,
         "to_hk": [
             "a",
             "a"
