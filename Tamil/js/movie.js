@@ -32,6 +32,8 @@ LINK_ACTIVE_BUTTON = 3
 
 const MENU_ICON_DICT = {};
 
+const IMP_COUNT        = 1;
+
 const SEARCH_MAP_DICT = { 'c' : 's', 'p' : 'b' };
 const IMAGE_MAP       = { 'm'  : 'maxresdefault.jpg',
                           'm2' : 'maxres2.jpg',
@@ -648,8 +650,9 @@ function search_load_fetch_data(search_index_obj) {
         const data_list = search_obj[category];
         data_list.forEach(function (data_item, data_index) {
             const h_id = data_item.H;
-            const aka_list = data_item.A.split(',');
-            const data_doc = { 'id' : data_id, 'href' : h_id, 'title' : h_id, 'aka' : aka_list, 'category' : category, 'pop' : data_item.P };
+            const t_list = data_item.A.slice(0, IMP_COUNT);
+            const a_list = data_item.A;
+            const data_doc = { 'id' : data_id, 'href' : h_id, 'title' : t_list, 'aka' : a_list, 'category' : category, 'pop' : data_item.P };
             search_engine.add(data_doc);
             data_id += 1;
         });
@@ -658,8 +661,8 @@ function search_load_fetch_data(search_index_obj) {
 
 function search_init() {
     window.indic_search_engine = new MiniSearch({
-        fields: ['aka'], // fields to index for full-text search
-        storeFields: ['title', 'href', 'category', 'pop'] // fields to return with search results
+        fields: ['title', 'aka'], // fields to index for full-text search
+        storeFields: ['href', 'category', 'pop'] // fields to return with search results
     });
     window.search_initialized = false;
     fetch_url_data('SEARCH DATA', 'search_index.json');
@@ -680,12 +683,11 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
     const results = window.indic_search_engine.search(search_word, search_options);
     if (results.length <= 0) return;
     const max_score = results[0].score;
+    // console.log('get_search_results', results);
     for (const result_item of results) {
         if (id_list.has(result_item.id)) continue;
         let pop = result_item.pop;
-        if (search_word.length > 2) {
-            pop = ((10 * result_item.score) / max_score) + (0.9 * pop);
-        }
+        pop = ((10 * result_item.score) / max_score) + (0.9 * pop);
         pop = base_pop + pop;
         const category = result_item.category
         const id_data = window.ID_DATA[category];
@@ -722,7 +724,7 @@ function load_search_part(search_word, non_english) {
     const s_search_word = search_word.replace(/\s/g, '');
     const item_list = [];
     const id_list = new Set();
-    let search_options = { prefix: true, combineWith: 'AND', fuzzy: term => term.length > 3 ? 0.1 : null };
+    let search_options = { prefix: true, boost: { title: 5 }, combineWith: 'AND', fuzzy: term => term.length > 3 ? 0.1 : null };
     get_search_results(search_word, search_options, item_list, id_list, 4000);
     if (search_word !== s_search_word) {
         get_search_results(s_search_word, search_options, item_list, id_list, 1000);
