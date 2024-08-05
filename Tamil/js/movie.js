@@ -696,7 +696,7 @@ function get_search_results(search_word, search_options, item_list, id_list, bas
         const href = id_data[result_item.href][0];
         const title = get_phonetic_text(category, result_item.href);
         const item = { 'T' : category, 'C' : n_category, 'I' : MENU_ICON_DICT[category],
-                       'H' : href, 'N' : title, 'P' : pop
+                       'H' : href, 'N' : title, 'P' : pop, 'S' : results[0].score
                      };
         const need_poster = check_need_poster(category);
         if (need_poster) {
@@ -746,6 +746,7 @@ function load_search_part(search_word, non_english) {
     }
     item_list.sort(function (a, b) { return b.P - a.P; });
     const new_item_list = item_list.slice(0, 25);
+    // console.log(search_word, new_item_list);
     return new_item_list;
 }
 
