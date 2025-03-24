@@ -746,7 +746,7 @@ function load_search_part(search_word, non_english) {
     }
     item_list.sort(function (a, b) { return b.P - a.P; });
     const new_item_list = item_list.slice(0, 25);
-    // console.log(search_word, new_item_list);
+    //console.log(search_word, new_item_list);
     return new_item_list;
 }
 
